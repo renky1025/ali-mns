@@ -44,9 +44,9 @@ module AliMNS{
         }
 
         // 发送消息
-        public sendP(msg:string, priority?:number, delaySeconds?:number){
+        public sendP(msg:string, priority?:number, delaySeconds?:number, isBa64?: boolean){
             
-            var b64 = this.utf8ToBase64(msg);
+            var b64 = (isBa64)? this.utf8ToBase64(msg): msg
             
             var body :any = { Message: { MessageBody: b64 } };
             if(!isNaN(priority)) body.Message.Priority = priority;
@@ -63,7 +63,7 @@ module AliMNS{
 
         // 接收消息
         // waitSeconds, 最久等待多少秒0~30
-        public recvP(waitSeconds?:number){
+        public recvP(waitSeconds?:number, isBa64?: boolean){
             var _this = this;
             var url = this._url;
             if(waitSeconds) url += "?waitseconds=" + waitSeconds;
@@ -78,7 +78,7 @@ module AliMNS{
                 _this._openStack.sendP("GET", url, null, null, options).done(function(data){
                     debug(data);
                     if(data && data.Message && data.Message.MessageBody){
-                        data.Message.MessageBody = _this.base64ToUtf8(data.Message.MessageBody)
+                        data.Message.MessageBody = (isBa64)? _this.base64ToUtf8(data.Message.MessageBody) : data.Message.MessageBody
                     }
                     resolve(data);
                 }, function(ex){
