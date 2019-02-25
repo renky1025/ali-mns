@@ -686,8 +686,8 @@ var AliMNS;
             return this._openStack.sendP("PUT", this._urlAttr + "?metaoverride=true", body);
         };
         // 发送消息
-        MQ.prototype.sendP = function (msg, priority, delaySeconds) {
-            var b64 = this.utf8ToBase64(msg);
+        MQ.prototype.sendP = function (msg, priority, delaySeconds, isBa64) {
+            var b64 = (isBa64)? this.utf8ToBase64(msg) : msg;
             var body = { Message: { MessageBody: b64 } };
             if (!isNaN(priority))
                 body.Message.Priority = priority;
@@ -702,7 +702,7 @@ var AliMNS;
         MQ.prototype.setRecvTolerance = function (value) { this._recvTolerance = value; };
         // 接收消息
         // waitSeconds, 最久等待多少秒0~30
-        MQ.prototype.recvP = function (waitSeconds) {
+        MQ.prototype.recvP = function (waitSeconds, isBa64) {
             var _this = this;
             var url = this._url;
             if (waitSeconds)
@@ -717,7 +717,7 @@ var AliMNS;
                 _this._openStack.sendP("GET", url, null, null, options).done(function (data) {
                     debug(data);
                     if (data && data.Message && data.Message.MessageBody) {
-                        data.Message.MessageBody = _this.base64ToUtf8(data.Message.MessageBody);
+                        data.Message.MessageBody = (isBa64)? _this.base64ToUtf8(data.Message.MessageBody): data.Message.MessageBody;
                     }
                     resolve(data);
                 }, function (ex) {
