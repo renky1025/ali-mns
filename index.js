@@ -727,9 +727,10 @@ var AliMNS;
                         exTimeout.innerException = ex;
                         exTimeout.code = ex.code;
                         reject(exTimeout);
-                    }
-                    else {
-                        reject(ex);
+                    } else if(ex.Error.Code === "MessageNotExist") {
+                        resolve(null);
+                    } else {
+                        reject(ex.Error);
                     }
                 });
             });
