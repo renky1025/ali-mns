@@ -1,4 +1,4 @@
-var gitVersion={"branch":"master","rev":"135","hash":"ae2f769","hash160":"ae2f769c7b594ca914325aa4380e99978f2bb6e5"};
+var gitVersion={"branch":"master","rev":"139","hash":"f059438","hash160":"f059438d7c0ae8221a53734ce445ae6a38eb3e92"};
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -687,7 +687,7 @@ var AliMNS;
         };
         // 发送消息
         MQ.prototype.sendP = function (msg, priority, delaySeconds, isBa64) {
-            var b64 = (isBa64)? this.utf8ToBase64(msg) : msg;
+            var b64 = (isBa64) ? this.utf8ToBase64(msg) : msg;
             var body = { Message: { MessageBody: b64 } };
             if (!isNaN(priority))
                 body.Message.Priority = priority;
@@ -717,7 +717,7 @@ var AliMNS;
                 _this._openStack.sendP("GET", url, null, null, options).done(function (data) {
                     debug(data);
                     if (data && data.Message && data.Message.MessageBody) {
-                        data.Message.MessageBody = (isBa64)? _this.base64ToUtf8(data.Message.MessageBody): data.Message.MessageBody;
+                        data.Message.MessageBody = (isBa64) ? _this.base64ToUtf8(data.Message.MessageBody) : data.Message.MessageBody;
                     }
                     resolve(data);
                 }, function (ex) {
@@ -727,9 +727,11 @@ var AliMNS;
                         exTimeout.innerException = ex;
                         exTimeout.code = ex.code;
                         reject(exTimeout);
-                    } else if(ex.Error.Code === "MessageNotExist") {
+                    }
+                    else if (ex.Error.Code === "MessageNotExist") {
                         resolve(null);
-                    } else {
+                    }
+                    else {
                         reject(ex.Error);
                     }
                 });

@@ -1,6 +1,6 @@
 {
   "name": "ali-mns-renky",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "The nodejs SDK for aliyun mns service, fixed bug: enable to encode/decode message when send or receveid message",
   "main": "index.js",
   "dependencies": {
