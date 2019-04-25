@@ -728,11 +728,11 @@ var AliMNS;
                         exTimeout.code = ex.code;
                         reject(exTimeout);
                     }
-                    else if (ex.Error.Code === "MessageNotExist") {
+                    else if (ex.Error && ex.Error.Code === "MessageNotExist") { // empty queue
                         resolve(null);
                     }
-                    else {
-                        reject(ex.Error);
+                    else {  // try to hanlde other issue
+                        reject(ex);
                     }
                 });
             });
